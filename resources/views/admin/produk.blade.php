@@ -99,7 +99,84 @@
                                     <td>{{ $p->kategori->nama ?? 'Tidak ada kategori' }}</td>
 
                                     <td>
-                                        <a href="{{ route('produk.edit', $p->id) }}" class="btn btn-sm btn-primary">Edit</a>
+                                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#editModal{{ $p->id }}">
+                                            Edit
+                                        </button>
+                                        {{-- Modal Edit --}}
+                                        <!-- Modal Edit Produk -->
+                                        <div class="modal fade" id="editModal{{ $p->id }}" tabindex="-1">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+
+                                                    <form action="{{ route('produk.update', $p->id) }}" method="POST"
+                                                        enctype="multipart/form-data">
+                                                        @csrf
+                                                        @method('PUT')
+
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Edit Produk</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal"></button>
+                                                        </div>
+
+                                                        <div class="modal-body">
+
+                                                            <div class="mb-3">
+                                                                <label>Nama</label>
+                                                                <input name="nama" class="form-control"
+                                                                    value="{{ $p->nama }}" required>
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <label>Harga</label>
+                                                                <input name="harga" type="number" class="form-control"
+                                                                    value="{{ $p->harga }}" required>
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <label>Kategori</label>
+                                                                <select name="kategori_id" class="form-select" required>
+                                                                    @foreach ($kategori as $k)
+                                                                        <option value="{{ $k->id }}"
+                                                                            {{ $p->kategori_id == $k->id ? 'selected' : '' }}>
+                                                                            {{ $k->nama }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <label>Deskripsi</label>
+                                                                <textarea name="deskripsi" class="form-control">{{ $p->deskripsi }}</textarea>
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <label>Foto (opsional)</label>
+                                                                <input type="file" name="foto" class="form-control">
+                                                                <small class="text-muted">
+                                                                    Kosongkan jika tidak ingin mengganti foto
+                                                                </small>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">
+                                                                Batal
+                                                            </button>
+                                                            <button type="submit" class="btn btn-primary">
+                                                                Update
+                                                            </button>
+                                                        </div>
+
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{-- End Modal --}}
                                         <form action="{{ route('produk.destroy', $p->id) }}" method="POST"
                                             class="d-inline">
                                             @csrf @method('DELETE')

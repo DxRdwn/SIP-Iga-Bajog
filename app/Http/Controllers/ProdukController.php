@@ -38,7 +38,34 @@ class ProdukController extends Controller
 
         return redirect()->back();
     }
+        public function update(Request $request, $id)
+{
+    $produk = Produk::findOrFail($id);
 
+    $request->validate([
+        'nama' => 'required',
+        'harga' => 'required',
+        'kategori_id' => 'required',
+        'foto' => 'nullable|image'
+    ]);
+
+    // jika upload foto baru
+    if ($request->hasFile('foto')) {
+        $filename = time().'.'.$request->foto->extension();
+        $request->foto->storeAs('produk', $filename, 'public');
+        $produk->foto = $filename;
+    }
+
+    $produk->update([
+        'nama' => $request->nama,
+        'harga' => $request->harga,
+        'kategori_id' => $request->kategori_id,
+        'deskripsi' => $request->deskripsi,
+        'foto' => $produk->foto
+    ]);
+
+    return redirect()->back();
+}
     public function destroy($id)
     {
         $produk = Produk::findOrFail($id);
