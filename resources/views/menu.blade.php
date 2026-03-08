@@ -187,6 +187,12 @@
                             <input name="customer_name" type="text" class="form-control" required>
                         </div>
                     </div>
+                    <div class="row mb-2 col-lg-6">
+                        <label class="col-sm-3 col-form-label">No Hp</label>
+                        <div class="col-sm-9">
+                            <input name="no_hp" type="number" class="form-control" required>
+                        </div>
+                    </div>
 
                     <div class="row mb-2 col-lg-6">
                         <label class="col-sm-3 col-form-label">No Meja</label>
@@ -307,6 +313,7 @@
             document.getElementById("btn-checkout").addEventListener("click", function() {
                 const customerName = document.querySelector('input[name="customer_name"]').value;
                 const tableNumber = document.querySelector('input[name="table_number"]').value;
+                const noHp = document.querySelector('input[name="no_hp"]').value;
                 const note = document.querySelector('textarea[name="note"]').value;
                 const total = orders.reduce((sum, o) => sum + o.price * o.qty, 0);
 
@@ -323,6 +330,7 @@
                         body: JSON.stringify({
                             customer_name: customerName,
                             table_number: tableNumber,
+                            no_hp: noHp,
                             note,
                             total_price: total,
                             items: orders

@@ -20,6 +20,8 @@ class OrderController extends Controller
             $order = Order::create([
                 'customer_name' => $request->customer_name,
                 'table_number' => $request->table_number,
+                'no_hp' => $request->no_hp,
+
                 'note' => $request->note,
                 'total_price' => $request->total_price,
                 'status' => 'pending', // optional
@@ -44,12 +46,24 @@ class OrderController extends Controller
 
         }
 
-    public function updateStatus($id)
-    {
-        $order = Order::findOrFail($id);
-        $order->status = 'selesai';
-        $order->save();
+        public function updateStatus($id)
+        {
+            $order = Order::findOrFail($id);
 
-        return back()->with('success', 'Pesanan selesai diproses.');
-    }
+            // ubah status
+            $order->status = 'selesai';
+            $order->save();
+
+            // ambil nomor hp dari database
+            $no_hp = $order->no_hp;
+
+            // format nomor (hapus 0 depan -> jadi 62)
+            $no_hp = preg_replace('/^0/', '62', $no_hp);
+
+            // pesan whatsapp
+            $pesan = urlencode("Halo {$order->nama}, pesanan Anda sudah selesai dan siap diambil. Terima kasih telah memesan Iga Bajog.");
+
+            // redirect ke whatsapp
+            return redirect("https://wa.me/".$no_hp."?text=".$pesan);
+        }
 }
