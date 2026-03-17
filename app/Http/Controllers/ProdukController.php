@@ -38,7 +38,7 @@ class ProdukController extends Controller
 
         return redirect()->back();
     }
-        public function update(Request $request, $id)
+    public function update(Request $request, $id)
 {
     $produk = Produk::findOrFail($id);
 
@@ -66,6 +66,7 @@ class ProdukController extends Controller
 
     return redirect()->back();
 }
+
     public function destroy($id)
     {
         $produk = Produk::findOrFail($id);

@@ -329,8 +329,8 @@
                         },
                         body: JSON.stringify({
                             customer_name: customerName,
-                            table_number: tableNumber,
                             no_hp: noHp,
+                            table_number: tableNumber,
                             note,
                             total_price: total,
                             items: orders
