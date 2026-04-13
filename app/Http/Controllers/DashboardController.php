@@ -13,11 +13,11 @@ class DashboardController extends Controller
     {
         $totalProducts = Produk::count();
         $totalOrders = Order::count();
-        $totalRevenue = Order::sum('total_price');
+        $totalRevenue = Order::sum('total');
 
         // Penjualan 7 hari terakhir untuk chart
         $salesData = Order::where('created_at', '>=', Carbon::now()->subDays(6))
-            ->selectRaw('DATE(created_at) as date, SUM(total_price) as total')
+            ->selectRaw('DATE(created_at) as date, SUM(total) as total')
             ->groupBy('date')
             ->orderBy('date', 'ASC')
             ->get();

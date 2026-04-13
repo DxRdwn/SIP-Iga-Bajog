@@ -74,7 +74,7 @@
                                         <td>#{{ $order->id }}</td>
                                         <td>{{ $order->customer_name }}</td>
                                         <td>{{ $order->table_number }}</td>
-                                        <td>Rp {{ number_format($order->total_price, 0, ',', '.') }}</td>
+                                        <td>Rp {{ number_format($order->total, 0, ',', '.') }}</td>
                                         <td>
                                             <span
                                                 class="badge

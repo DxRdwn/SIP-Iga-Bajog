@@ -14,36 +14,50 @@ class OrderController extends Controller
         return view('admin.order', compact('orders'));
     }
 
-    public function store(Request $request)
-    {
-        
-            $order = Order::create([
-                'customer_name' => $request->customer_name,
-                'no_hp' => $request->no_hp,
-                'table_number' => $request->table_number,
-                'note' => $request->note,
-                'total_price' => $request->total_price,
-                'status' => 'pending', // optional
-            ]);
+public function store(Request $request)
+{
+    try {
+        $items = json_decode($request->items, true);
 
-            foreach ($request->items as $item) {
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'product_id' => $item['id'],
-                    
-                    'quantity' => $item['qty'],
-                    'price' => $item['price']
-                ]);
-            }
-            // Tambahkan notifikasi sukses ke session
-            session()->flash('success', 'Pesanan berhasil dibuat!');
-
-            return response()->json([
-                'success' => true,
-                'order_id' => $order->id
-            ]);
-
+        $total = 0;
+        foreach ($items as $item) {
+            $total += $item['price'] * $item['qty'];
         }
+
+        $path = null;
+        if ($request->hasFile('bukti')) {
+            $path = $request->file('bukti')->store('bukti', 'public');
+        }
+
+        $order = Order::create([
+            'customer_name' => $request->customer_name,
+            'no_hp' => $request->no_hp,
+            'table_number' => $request->table_number,
+            'note' => $request->note,
+            'total' => $total,
+            'status' => 'pending',
+            'bukti_img' => $path,
+        ]);
+
+        foreach ($items as $item) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $item['id'],
+                'quantity' => $item['qty'],
+                'price' => $item['price']
+            ]);
+        }
+
+        return response()->json([
+            'success' => true
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
 
     public function updateStatus($id)
 {

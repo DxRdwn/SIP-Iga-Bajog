@@ -34,7 +34,7 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $order->customer_name }}</td>
                                 <td>{{ $order->table_number }}</td>
-                                <td>Rp {{ number_format($order->total_price, 0, ',', '.') }}</td>
+                                <td>Rp {{ number_format($order->total, 0, ',', '.') }}</td>
                                 <td>
                                     <span
                                         class="badge
@@ -75,6 +75,7 @@
                                     <p><strong>No. Meja:</strong> {{ $order->table_number }}</p>
                                     <p><strong>Catatan:</strong> {{ $order->note ?? '-' }}</p>
 
+
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
@@ -102,9 +103,19 @@
 
                                     <h5 class="text-end">
 
-                                        Total: Rp {{ number_format($order->total_price, 0, ',', '.') }}
+                                        Total: Rp {{ number_format($order->total, 0, ',', '.') }}
 
                                     </h5>
+                                    <p><strong>Bukti Pembayaran:</strong></p>
+
+                                    @if ($order->bukti_img)
+                                        <div class="text-center mb-3">
+                                            <img src="{{ asset('storage/' . $order->bukti_img) }}" alt="Bukti Pembayaran"
+                                                class="img-fluid rounded shadow" style="max-height:300px;">
+                                        </div>
+                                    @else
+                                        <p class="text-muted">Belum ada bukti pembayaran</p>
+                                    @endif
                                 </div>
 
                                 <div class="modal-footer">

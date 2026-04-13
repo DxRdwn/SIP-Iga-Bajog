@@ -11,8 +11,9 @@ class Order extends Model
         'no_hp',
         'table_number',
         'note',
-        'total_price',
+        'total',
         'status',
+        'bukti_img'
     ];
 
     public function items()
