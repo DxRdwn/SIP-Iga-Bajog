@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class OrderController extends Controller
 {
@@ -49,7 +51,8 @@ public function store(Request $request)
         }
 
         return response()->json([
-            'success' => true
+            'success' => true,
+            'order_id' => $order->id
         ]);
 
     } catch (\Exception $e) {
@@ -79,4 +82,22 @@ public function store(Request $request)
     // redirect ke whatsapp
     return redirect("https://wa.me/".$no_hp."?text=".$pesan);
 }
+public function struk($id)
+{
+    $order = Order::with('items.product')->findOrFail($id);
+
+    $pdf = Pdf::loadView('struk', compact('order'));
+
+    return $pdf->download('struk-order-' . $order->id . '.pdf');
+}
+public function strukin($id)
+{
+    $order = Order::with('items.product')->findOrFail($id);
+
+    $pdf = Pdf::loadView('strukadmin', compact('order'));
+
+    return $pdf->download('struk-order-' . $order->id . '.pdf');
+}
+
+
 }

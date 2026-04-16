@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', action: [MenuController::class, 'user']);
 Route::post('/order/store', [OrderController::class, 'store'])->name('order.store');
+Route::get('/order/struk/{id}', [OrderController::class, 'struk'])
+    ->name('order.struk');
 
 
 Route::middleware('auth')->group(function () {
@@ -18,7 +20,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/order', [OrderController::class, 'index']);
     // routes/web.php
     
-
+    Route::get('/order/strukin/{id}', [OrderController::class, 'strukin'])  
+    ->name('order.strukadmin');
     Route::get('/kategori', [KategoriController::class, 'index']);
     Route::get('/produk', [MenuController::class, 'index']);
     Route::resource('produk', ProdukController::class);

@@ -64,6 +64,7 @@
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
 
+                                <!-- HEADER -->
                                 <div class="modal-header">
                                     <h5 class="modal-title">
                                         Detail Pesanan - {{ $order->customer_name }}
@@ -71,17 +72,31 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
 
+                                <!-- BODY -->
                                 <div class="modal-body">
+
                                     <p><strong>No. Meja:</strong> {{ $order->table_number }}</p>
                                     <p><strong>Catatan:</strong> {{ $order->note ?? '-' }}</p>
 
+                                    <!-- STATUS -->
+                                    <p>
+                                        <strong>Status:</strong>
+                                        <span
+                                            class="badge 
+                            @if ($order->status == 'pending') bg-warning
+                            @elseif($order->status == 'diproses') bg-primary
+                            @else bg-success @endif">
+                                            {{ ucfirst($order->status ?? 'pending') }}
+                                        </span>
+                                    </p>
 
+                                    <!-- LIST MENU -->
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
                                                 <th>Produk</th>
-                                                <th>Qty</th>
-                                                <th>Harga</th>
+                                                <th width="80">Qty</th>
+                                                <th width="150">Harga</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -101,25 +116,50 @@
                                         </tbody>
                                     </table>
 
+                                    <!-- TOTAL -->
                                     <h5 class="text-end">
-
                                         Total: Rp {{ number_format($order->total, 0, ',', '.') }}
-
                                     </h5>
+
+                                    <hr>
+
+                                    <!-- BUKTI PEMBAYARAN -->
                                     <p><strong>Bukti Pembayaran:</strong></p>
 
                                     @if ($order->bukti_img)
                                         <div class="text-center mb-3">
-                                            <img src="{{ asset('storage/' . $order->bukti_img) }}" alt="Bukti Pembayaran"
-                                                class="img-fluid rounded shadow" style="max-height:300px;">
+                                            <a href="{{ asset('storage/' . $order->bukti_img) }}" target="_blank">
+                                                <img src="{{ asset('storage/' . $order->bukti_img) }}"
+                                                    alt="Bukti Pembayaran" class="img-fluid rounded shadow"
+                                                    style="max-height:300px;">
+                                            </a>
                                         </div>
                                     @else
                                         <p class="text-muted">Belum ada bukti pembayaran</p>
                                     @endif
+
                                 </div>
 
-                                <div class="modal-footer">
-                                    <button class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <!-- FOOTER -->
+                                <div class="modal-footer d-flex justify-content-between">
+
+                                    <!-- DOWNLOAD STRUK (HANYA JIKA SUDAH BAYAR) -->
+                                    @if ($order->bukti_img)
+                                        <a href="{{ route('order.strukadmin', $order->id) }}" class="btn btn-primary"
+                                            target="_blank">
+                                            🧾 Download Struk
+                                        </a>
+                                    @else
+                                        <button class="btn btn-secondary" disabled>
+                                            Belum Bayar
+                                        </button>
+                                    @endif
+
+                                    <!-- TUTUP -->
+                                    <button class="btn btn-secondary" data-bs-dismiss="modal">
+                                        Tutup
+                                    </button>
+
                                 </div>
 
                             </div>

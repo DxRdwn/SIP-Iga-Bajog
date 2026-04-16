@@ -397,6 +397,8 @@
                         console.log(data);
 
                         if (data.success === true) {
+                            // download struk
+                            window.open(`/order/struk/${data.order_id}`, "_blank");
 
                             // Reset cart
                             orders = [];
