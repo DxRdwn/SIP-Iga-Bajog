@@ -88,7 +88,7 @@ public function struk($id)
 
     $pdf = Pdf::loadView('struk', compact('order'));
 
-    return $pdf->download('struk-order-' . $order->id . '.pdf');
+    return $pdf->stream('struk-order-' . $order->id . '.pdf');
 }
 public function strukin($id)
 {
@@ -96,7 +96,7 @@ public function strukin($id)
 
     $pdf = Pdf::loadView('strukadmin', compact('order'));
 
-    return $pdf->download('struk-order-' . $order->id . '.pdf');
+    return $pdf->stream('struk-order-' . $order->id . '.pdf');
 }
 
 

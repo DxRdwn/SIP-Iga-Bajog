@@ -28,7 +28,7 @@
 <body>
 
     <div class="text-center">
-        <h3>WARUNG ANDA</h3>
+        <h3>IGA BAJOG</h3>
         <p>Order Dapur</p>
     </div>
 
