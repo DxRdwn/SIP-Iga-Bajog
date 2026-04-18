@@ -36,7 +36,7 @@
 <body>
 
     <div class="center">
-        <strong>DUX COFFEE</strong><br>
+        <strong>IGA BAJOG</strong><br>
         Jl. Contoh No.123<br>
         -------------------------
     </div>
@@ -79,7 +79,7 @@
 
     <div class="center">
         Terima Kasih 🙏<br>
-        Powered by Dux Coffee
+        Powered by Iga Bajog
     </div>
 
 </body>

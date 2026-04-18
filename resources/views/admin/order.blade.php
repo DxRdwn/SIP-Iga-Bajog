@@ -46,11 +46,14 @@
                                 </td>
                                 <td>
                                     <button class="btn btn-info btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#detailModal{{ $order->id }}">
-                                        Detail
+                                        data-bs-target="#detailModal{{ $order->id }}" title="Detail">
+                                        <i class="bi bi-eye"></i>
                                     </button>
-                                    <a href="{{ route('order.updateStatus', $order->id) }}" class="btn btn-success btn-sm">
-                                        ✔ Selesai
+                                    <a href="{{ route('order.strukadmin', $order->id) }}" class="btn btn-primary btn-sm" target="_blank" title="Print Struk">
+                                        <i class="bi bi-printer"></i>
+                                    </a>
+                                    <a href="{{ route('order.updateStatus', $order->id) }}" class="btn btn-success btn-sm" title="Selesai">
+                                        <i class="bi bi-check-circle"></i>
                                     </a>
                                 </td>
                             </tr>
